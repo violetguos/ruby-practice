@@ -9,3 +9,83 @@ def pick_random_line
     return chosen_line.gsub!(/[^A-Za-z]/, '')
 end
 
+class Game
+    attr_accessor :guess_word_config
+    def initialize
+        @correct_word = pick_random_line
+        @guess_word_config = Array.new(@correct_word.length, "_")
+        @incorrect_letters = []
+    end
+
+    def display(guess)
+        # display the correct answers and "_"
+        @correct_word.split("").each_with_index do |c, idx|
+            if c == guess
+                @guess_word_config[idx] = guess
+            end
+        end
+        p @guess_word_config
+    end
+
+    def input_validation
+        guess = nil
+        while guess == nil
+            puts "Enter your answer: "
+            guess = gets.chomp
+            if guess =~ /[A-Za-z]/
+                guess.downcase!
+                return guess
+            end
+        end
+    end
+
+    def step
+        guess = input_validation
+        if @correct_word.include?(guess)
+            display(guess)
+        else
+            @incorrect_letters.push(guess)    
+            p @guess_word_config
+            puts "Incorrect letters: #{@incorrect_letters}"
+        end
+    end
+
+    def check_answer?
+        @correct_word == @guess_word_config.join("")? true: false
+    end
+
+    def rounds
+        cnt = 0
+        save_game = false
+        while cnt < @correct_word.length && !save_game
+            step
+            cnt +=1
+            save_game = self.save
+        end
+        p "Game over, answer was #{@correct_word}"
+    end
+
+    def save
+        puts "Would you like to save game? [y/n]"
+        ans = gets.chomp
+        if ans.downcase == "y"
+            File.open('game', 'w+') do |f|  
+                Marshal.dump(self, f)  
+            end  
+        
+        return true 
+        end
+    end
+
+end
+
+puts "Would you like to resume game? [y/n]"
+ans = gets.chomp
+
+if ans.downcase == "y"
+    File.open('game') do |f|  
+        game = Marshal.load(f)  
+    end
+else
+    game = Game.new
+end
