@@ -44,7 +44,9 @@ class Game
         if @correct_word.include?(guess)
             display(guess)
         else
-            @incorrect_letters.push(guess)    
+            if !@incorrect_letters.include?(guess)
+                @incorrect_letters.push(guess) 
+            end   
             p @guess_word_config
             puts "Incorrect letters: #{@incorrect_letters}"
         end
@@ -70,12 +72,18 @@ class Game
         ans = gets.chomp
         if ans.downcase == "y"
             File.open('game', 'w+') do |f|  
-                Marshal.dump(self, f)  
+                f.write(Marshal.dump(self))
             end  
         
         return true 
         end
     end
+
+    def self.load
+        Marshal.load(File.binread("game"))
+    end
+      
+      
 
 end
 
@@ -83,9 +91,8 @@ puts "Would you like to resume game? [y/n]"
 ans = gets.chomp
 
 if ans.downcase == "y"
-    File.open('game') do |f|  
-        game = Marshal.load(f)  
-    end
+    game = Game.load
 else
     game = Game.new
 end
+game.rounds
