@@ -20,6 +20,17 @@ def fibs(n)
     return f_n
 end
 
+def fibs_rec(n)
+
+    # if n == 0 or n == 1
+    #     return n
+    # end
+    # return fibs_rec(n-1) + fibs_rec(n-2)
+
+    n < 2? n : fibs_rec(n-1) + fibs_rec(n-2)
+end
+
+
 # test cases
 class TestSimpleNumber < Test::Unit::TestCase
  
@@ -29,6 +40,14 @@ class TestSimpleNumber < Test::Unit::TestCase
     assert_equal(1, fibs(2))
     assert_equal(5, fibs(5))
     assert_equal(21, fibs(8))
+  end
+
+  def test_recursion
+    assert_equal(0, fibs_rec(0))
+    assert_equal(1, fibs_rec(1))
+    assert_equal(1, fibs_rec(2))
+    assert_equal(5, fibs_rec(5))
+    assert_equal(21, fibs_rec(8))
   end
  
 end
