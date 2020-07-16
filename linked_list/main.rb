@@ -8,23 +8,31 @@ class LinkedList
   def append(value)
     new_node = Node.new(value)
     if @head == nil && @tail == nil
+      # empty list
       @head = new_node
       @tail = new_node
+    elsif
+      @tail.next_node = new_node
+      @tail = new_node
     end
-    @tail.next_node = new_node
-    @tail = new_node
   end
 
   def prepend(value)
     new_node = Node.new(value)
-    new_node.next_node = @head
-    @head = new_node
+    if @head == nil && @tail == nil
+      #emptry list
+      @head = new_node
+      @tail = new_node
+    elsif
+      new_node.next_node = @head
+      @head = new_node
+    end
   end
 
-  def size(value)
+  def size
     curr = @head
     cnt = 0
-    while curr!=nil
+    while curr != nil
       cnt += 1
       curr = curr.next_node
     end
@@ -34,7 +42,7 @@ class LinkedList
   def at(index)
     curr = @head
     cnt = 0
-    while curr!=index
+    while cnt!=index
       cnt += 1
       curr = curr.next_node
     end
@@ -57,6 +65,7 @@ class LinkedList
       if curr.value == value
         found = true
       end
+      curr = curr.next_node
     end
     return found
   end
@@ -68,11 +77,13 @@ class LinkedList
     while curr != nil && !found
       if curr.value == value
         found = true
+      
+      else
+        index += 1
+        curr = curr.next_node
       end
-      index += 1
-      curr = curr.next_node
     end
-    found? index: nil
+    found == true ? index: nil
   end
 
   def to_s
@@ -103,7 +114,14 @@ class Node
 end
 
 list = LinkedList.new
+list.prepend(3)
+
 list.append(1)
 list.append(2)
 list.prepend(0)
 p list.to_s
+p list.size
+p list.at(2)
+p list.contains?(4)
+p list.contains?(3)
+p list.find(2)
