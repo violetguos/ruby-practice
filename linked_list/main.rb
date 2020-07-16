@@ -113,6 +113,8 @@ class Node
   end
 end
 
+
+# simple test case
 list = LinkedList.new
 list.prepend(3)
 
