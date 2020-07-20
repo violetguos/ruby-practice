@@ -131,13 +131,67 @@ class Tree
     pretty_print(node.left, "#{prefix}#{is_left ? " " : "│ "}", true) if node.left
   end
 
+  def inorder(root=@root)
+    if root == nil
+      return
+    end
+    node_array = []
+    node_array << inorder(root.left) if root.left
+    node_array << root.data
+    node_array << inorder(root.right) if root.right
+    return node_array.flatten
+  end
+
+  def preorder(root=@root)
+    if root == nil
+      return
+    end
+    node_array = []
+
+    node_array << root.data
+    node_array << inorder(root.left) if root.left
+    node_array << inorder(root.right) if root.right
+    return node_array.flatten
+
+  end
+  
+  def postorder(root=@root)
+    if root == nil
+      return
+    end
+    node_array = [] 
+    node_array << inorder(root.left) if root.left
+    node_array << inorder(root.right) if root.right
+    node_array << root.data
+    return node_array.flatten
+  end
+
+  def depth(data)
+    curr = @root
+    depth = 0
+    found = false
+    while curr && !found
+      if data < curr.data
+        curr = curr.left
+        depth += 1
+      elsif data > curr.data
+        curr = curr.right
+        depth += 1
+      elsif data == curr.data
+        found = true
+      end
+    end
+    return depth
+  end
 end
 
 
-
+# driver script for testing
 tree = Tree.new([3, 2, 1])
 tree.insert(4)
 tree.pretty_print()
 tree.delete(3)
 tree.pretty_print()
 p tree.find(2)
+p tree.preorder()
+p tree.depth(1)
