@@ -8,6 +8,8 @@ class Node
 end
 
 class Tree
+  attr_accessor :root
+
   def build_tree(array)
     if array.length == 0
       return nil
@@ -166,32 +168,56 @@ class Tree
     return node_array.flatten
   end
 
-  def depth(data)
-    curr = @root
-    depth = 0
-    found = false
-    while curr && !found
-      if data < curr.data
-        curr = curr.left
-        depth += 1
-      elsif data > curr.data
-        curr = curr.right
-        depth += 1
-      elsif data == curr.data
-        found = true
-      end
-    end
-    return depth
+  def depth(node)
+    
+    return 0 if node == nil
+
+    left = 1+ depth(node.left) 
+    right = 1+ depth(node.right)
+    left > right ? left : right
   end
-end
+
+  def balanced?
+    if @root == nil
+      return true
+    end
+    left_depth = depth(@root.left)
+    right_depth = depth(@root.right)
+    if (left_depth - right_depth).abs > 1
+      return false
+    else 
+      return true
+    end
+  end
+
+  def rebalance()
+    values = inorder()
+    @root = build_tree(values)
+  end
+end # end of class Tree
 
 
 # driver script for testing
-tree = Tree.new([3, 2, 1])
-tree.insert(4)
+tree = Tree.new([66, 4, 37, 39, 83, 88])
+tree.insert(3)
+
 tree.pretty_print()
 tree.delete(3)
 tree.pretty_print()
-p tree.find(2)
+p tree.find(4)
 p tree.preorder()
-p tree.depth(1)
+p tree.depth(tree.root)
+p tree.balanced?
+# throw it off balance
+tree.insert(120)
+tree.insert(130)
+tree.insert(140)
+tree.insert(150)
+
+tree.pretty_print
+p tree.depth(tree.root)
+
+p tree.balanced?
+tree.rebalance
+tree.pretty_print
+
