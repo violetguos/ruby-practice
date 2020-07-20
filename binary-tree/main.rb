@@ -50,6 +50,66 @@ class Tree
     end
   end
 
+  def delete(data)
+    # find and delete
+    return if @root == nil
+    curr = @root
+    prev = @root
+
+    while curr && curr.data != data
+      if data < curr.data
+        prev = curr
+        curr = curr.left
+      else
+        prev = curr
+        curr = curr.right
+      end
+    end
+
+    # 1. not found
+    if curr == nil
+      return
+    else
+      if curr.left && curr.right
+        # promote either
+        if curr.left.data > prev.data
+          prev.right = curr.left
+        elsif curr.right.data > prev.data
+          prev.right = curr.right
+        elsif curr.left.data < prev.data
+          prev.left = curr.left
+        elsif curr.right.data < prev.data
+          prev.right = curr.right
+        end
+        curr = nil
+      elsif curr.left && !curr.right
+        if curr.left.data > prev.data
+          prev.right = curr.left
+        else
+          prev.left = curr.left
+        end
+        curr = nil
+
+      elsif curr.right
+        # promote right
+        if curr.right.data > prev.data
+          prev.right = curr.right
+        else
+          prev.left = curr.right
+        end
+        curr = nil
+      elsif !curr.left && !curr.right
+        # delete
+        #TODO: need to find the link, left or right??
+        if prev.right == curr
+          prev.right = nil 
+        elsif prev.left == curr
+          prev.left = nil
+      end
+    end
+
+  end
+
   def pretty_print(node = @root, prefix="", is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? "│ " : " "}", false) if node.right
     puts "#{prefix}#{is_left ? "└── " : "┌── "}#{node.data.to_s}"
@@ -62,4 +122,6 @@ end
 
 tree = Tree.new([3, 2, 1])
 tree.insert(4)
+tree.pretty_print()
+tree.delete(3)
 tree.pretty_print()
