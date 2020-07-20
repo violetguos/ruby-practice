@@ -8,12 +8,6 @@ class Node
 end
 
 class Tree
-
-  def initialize(array)
-    @array = array.sort
-    @root = build_tree(@array)
-  end
-
   def build_tree(array)
     if array.length == 0
       return nil
@@ -30,14 +24,42 @@ class Tree
     return root
   end
 
+  def initialize(array)
+    @array = array.uniq.sort
+    @root = build_tree(@array)
+  end
+
+
+  def insert(data, root=@root)
+    if root == nil
+      return root = Node.new(data)
+    end
+
+    if (data > root.data)
+      if root.right == nil
+        root.right = Node.new(data)
+      else
+        insert(data, root.right)
+      end
+    else
+      if root.left == nil
+        root.left = Node.new(data)
+      else
+        insert(data, root.left)
+      end
+    end
+  end
+
+  def pretty_print(node = @root, prefix="", is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? "│ " : " "}", false) if node.right
+    puts "#{prefix}#{is_left ? "└── " : "┌── "}#{node.data.to_s}"
+    pretty_print(node.left, "#{prefix}#{is_left ? " " : "│ "}", true) if node.left
+  end
+
 end
 
-def pretty_print(node = root, prefix="", is_left = true)
-  pretty_print(node.right, "#{prefix}#{is_left ? "│ " : " "}", false) if node.right
-  puts "#{prefix}#{is_left ? "└── " : "┌── "}#{node.data.to_s}"
-  pretty_print(node.left, "#{prefix}#{is_left ? " " : "│ "}", true) if node.left
-end
+
 
 tree = Tree.new([3, 2, 1])
-root = tree.build_tree([3, 2, 1])
-pretty_print(root)
+tree.insert(4)
+tree.pretty_print()
