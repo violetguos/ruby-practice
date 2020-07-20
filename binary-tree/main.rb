@@ -99,15 +99,30 @@ class Tree
         end
         curr = nil
       elsif !curr.left && !curr.right
-        # delete
-        #TODO: need to find the link, left or right??
+        # delete and point ancestor to leaf
         if prev.right == curr
           prev.right = nil 
         elsif prev.left == curr
           prev.left = nil
+        end
       end
     end
+  end
 
+  def find(data)
+    # traversal
+    curr = @root
+    while curr
+      if data < curr.data
+        curr = curr.left
+      elsif data > curr.data
+        curr = curr.right
+      elsif data == curr.data
+        return curr
+      end
+    end
+    # not found if here
+    return
   end
 
   def pretty_print(node = @root, prefix="", is_left = true)
@@ -125,3 +140,4 @@ tree.insert(4)
 tree.pretty_print()
 tree.delete(3)
 tree.pretty_print()
+p tree.find(2)
