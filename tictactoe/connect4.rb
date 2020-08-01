@@ -26,11 +26,15 @@ class Connect4Board < Board
     end
 
     def check_horizontal?(row)
-        @board_config[row].count(R) == 4 or  @board_config[row].count(B) == 4
+        count_consecutive(@board_config[row])[R] == 4 or  count_consecutive(@board_config[row])[B] == 4
     end
     
     def check_vertical?(column)
-        @board_config.transpose[column].count(R) == 4 or @board_config.transpose[column].count(B) == 4
+        count_consecutive(@board_config.transpose[column])[R] == 4 or count_consecutive(@board_config.transpose[column])[B] == 4
+    end
+
+    def count_consecutive(arr)
+        arr.chunk{|y| y}.map{|y, ys| [y, ys.length]}.to_h
     end
 
     def check_diagonal?
@@ -50,7 +54,7 @@ class Connect4Board < Board
 
             end
             
-            if c1.count(R) == 4 || c1.count(B) ==4 
+            if count_consecutive(c1)[R] == 4 || count_consecutive(c1)[B] ==4 
                 return true
             end
 
@@ -63,7 +67,7 @@ class Connect4Board < Board
                 y -=1
             end
 
-            if c1.count(R) == 4 || c1.count(B) ==4 
+            if count_consecutive(c1)[R] == 4 || count_consecutive(c1)[B] ==4 
                 return true
             end
 
@@ -76,9 +80,10 @@ class Connect4Board < Board
                 x +=1
                 y -=1
             end
-            if c1.count(R) == 4 || c1.count(B) ==4 
+            if count_consecutive(c1)[R] == 4 || count_consecutive(c1)[B] ==4 
                 return true
             end
+
 
             c1 = []
             x = @x_dim - i - 1
@@ -90,15 +95,44 @@ class Connect4Board < Board
                 y +=1
             end
 
-            if c1.count(R) == 4 || c1.count(B) ==4 
+            if count_consecutive(c1)[R] == 4 || count_consecutive(c1)[B] ==4 
                 return true
             end
+
         end # for j
         end # for i
         false
     end
-
-    
-
     
 end
+
+# class Player
+  
+#     @@board = Connect4Board.new
+#     def get_board
+#         puts "New Turn \n"
+#         @@board.print_b
+#     end
+#     def initialize
+#         puts "Enter player A name:"
+        
+#         @nameA = gets.chomp
+#         puts "Enter player B name:"
+        
+#         @nameB = gets.chomp
+#         @scoreA = 0
+#         @scoreB = 0
+
+        
+#     end
+  
+#     def move(coord)
+#       @@board.set(coord, @name)
+#       if @@board.check_winner(coord)
+#         puts "#{@name} won!!"
+#       end
+#     end
+#   end
+  
+
+# game = Player.new("v")
