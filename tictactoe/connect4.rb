@@ -103,6 +103,34 @@ class Connect4Board < Board
         end # for i
         false
     end
+
+    def check_winner?
+        winner = false
+        i = 0
+
+        while !winner && i < @y_dim do
+            winner = check_vertical?(i)
+            i+=1
+        end
+
+        return winner if winner
+        
+
+        winner = false
+
+        i = 0
+        while !winner && i < @x_dim do
+            winner = check_horizontal?(i)
+            i+=1
+        end
+            
+        return winner if winner
+
+        winner = check_diagonal?
+
+        return winner
+        
+    end
     
 end
 
@@ -122,8 +150,7 @@ end
 #         @nameB = gets.chomp
 #         @scoreA = 0
 #         @scoreB = 0
-
-        
+    
 #     end
   
 #     def move(coord)
@@ -131,6 +158,11 @@ end
 #       if @@board.check_winner(coord)
 #         puts "#{@name} won!!"
 #       end
+#     end
+
+#     def game
+
+
 #     end
 #   end
   

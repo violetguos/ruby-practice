@@ -18,6 +18,16 @@ describe "game" do
         expect(board.check_vertical?(0)).to eql(true)
     end
 
+    it "find winner general" do
+        board = Connect4Board.new
+        board.set(0, B)
+        board.set(0, B)
+        board.set(0, B)
+        board.set(0, B)
+
+        expect(board.check_winner?).to eql(true)
+    end
+
     it "find winner horizontal" do
         board = Connect4Board.new
         board.set(0, B)
