@@ -1,7 +1,7 @@
 require './main.rb'
 
-B = 'blue'
-R = 'red'
+B = 'B'
+R = 'R'
 
 class Connect4Board < Board 
     attr_accessor :board_config, :win_player
@@ -154,40 +154,60 @@ class Connect4Board < Board
         return winner
         
     end
+
+    def print_b
+      @board_config.reverse.each_with_index do |row, idx|
+        row.each_with_index do |elem, elem_idx|
+          if elem != 0
+            print elem
+          else
+            print " "
+          end
+          
+          print '|'
+          
+        end
+        print "\n"
+      end
+    end
     
 end
 
-# class Player
+class Player
   
-#     @@board = Connect4Board.new
-#     def get_board
-#         puts "New Turn \n"
-#         @@board.print_b
-#     end
-#     def initialize
-#         puts "Enter player A name:"
+    @@board = Connect4Board.new
+    def get_board
+        puts "New Turn \n"
+        @@board.print_b
+    end
+    def initialize
         
-#         @nameA = gets.chomp
-#         puts "Enter player B name:"
-        
-#         @nameB = gets.chomp
-#         @scoreA = 0
-#         @scoreB = 0
+        @scoreR = 0
+        @scoreB = 0
     
-#     end
+    end
+
+
+    def game
+      while !@@board.check_winner?
+        puts "Player R enter column: "
+        move_a = gets.chomp
+        @@board.set(move_a.to_i, R)
+
+        puts "Player B enter column: "
+        move_a = gets.chomp
+        @@board.set(move_a.to_i, B)
+        @@board.print_b
+      end
+      
+      puts "#{@@board.win_player} won!!"
+
+    end
+
+
+
+  end
   
-#     def move(coord)
-#       @@board.set(coord, @name)
-#       if @@board.check_winner(coord)
-#         puts "#{@name} won!!"
-#       end
-#     end
 
-#     def game
-
-
-#     end
-#   end
-  
-
-# game = Player.new("v")
+game = Player.new
+game.game
