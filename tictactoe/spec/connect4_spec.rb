@@ -16,6 +16,7 @@ describe "game" do
         board.set(0, B)
 
         expect(board.check_vertical?(0)).to eql(true)
+        expect(board.win_player).to eql(B)
     end
 
     it "find winner general" do
@@ -26,6 +27,8 @@ describe "game" do
         board.set(0, B)
 
         expect(board.check_winner?).to eql(true)
+        expect(board.win_player).to eql(B)
+
     end
 
     it "find winner horizontal" do
@@ -35,6 +38,8 @@ describe "game" do
         board.set(2, B)
         board.set(3, B)
         expect(board.check_horizontal?(0)).to eql(true)
+        expect(board.win_player).to eql(B)
+
     end
 
     it "find winner diagonal" do
@@ -53,6 +58,8 @@ describe "game" do
 
         board.set(3, B)
         expect(board.check_diagonal?).to eql(true)
+        expect(board.win_player).to eql(B)
+
     end
 
     it "find winner random diagonal" do
@@ -73,11 +80,10 @@ describe "game" do
             board.set(4, R)
         end
 
-        board.set(1, B)
-        board.set(2, B)
-        board.set(3, B)
-        board.set(4, B)
+
 
         expect(board.check_diagonal?).to eql(true)
+        expect(board.win_player).to eql(R)
+
     end
 end

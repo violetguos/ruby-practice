@@ -4,13 +4,13 @@ B = 'blue'
 R = 'red'
 
 class Connect4Board < Board 
-    attr_accessor :board_config
+    attr_accessor :board_config, :win_player
     def initialize
         @x_dim = 7
         @y_dim = 6
         @board_config = Array.new(@x_dim) {Array.new(@y_dim, 0)}
         
-        
+        @win_player = nil
     end 
     def set(col, move)
         # sink to the bottom
@@ -26,10 +26,14 @@ class Connect4Board < Board
     end
 
     def check_horizontal?(row)
-        count_consecutive(@board_config[row])[R] == 4 or  count_consecutive(@board_config[row])[B] == 4
+        @win_player = R if count_consecutive(@board_config[row])[R] == 4 
+        @win_player = B if count_consecutive(@board_config[row])[B] == 4
+        count_consecutive(@board_config[row])[R] == 4 or count_consecutive(@board_config[row])[B] == 4
     end
     
     def check_vertical?(column)
+        @win_player = R if count_consecutive(@board_config.transpose[column])[R] == 4 
+        @win_player = B if count_consecutive(@board_config.transpose[column])[B] == 4 
         count_consecutive(@board_config.transpose[column])[R] == 4 or count_consecutive(@board_config.transpose[column])[B] == 4
     end
 
@@ -54,7 +58,12 @@ class Connect4Board < Board
 
             end
             
-            if count_consecutive(c1)[R] == 4 || count_consecutive(c1)[B] ==4 
+            if count_consecutive(c1)[R] == 4 
+                @win_player = R
+                return true
+
+            elsif count_consecutive(c1)[B] == 4 
+                @win_player = B
                 return true
             end
 
@@ -67,7 +76,12 @@ class Connect4Board < Board
                 y -=1
             end
 
-            if count_consecutive(c1)[R] == 4 || count_consecutive(c1)[B] ==4 
+            if count_consecutive(c1)[R] == 4 
+                @win_player = R
+                return true
+
+            elsif count_consecutive(c1)[B] == 4 
+                @win_player = B
                 return true
             end
 
@@ -80,10 +94,14 @@ class Connect4Board < Board
                 x +=1
                 y -=1
             end
-            if count_consecutive(c1)[R] == 4 || count_consecutive(c1)[B] ==4 
+            if count_consecutive(c1)[R] == 4 
+                @win_player = R
+                return true
+
+            elsif count_consecutive(c1)[B] == 4 
+                @win_player = B
                 return true
             end
-
 
             c1 = []
             x = @x_dim - i - 1
@@ -95,7 +113,12 @@ class Connect4Board < Board
                 y +=1
             end
 
-            if count_consecutive(c1)[R] == 4 || count_consecutive(c1)[B] ==4 
+            if count_consecutive(c1)[R] == 4 
+                @win_player = R
+                return true
+
+            elsif count_consecutive(c1)[B] == 4 
+                @win_player = B
                 return true
             end
 
