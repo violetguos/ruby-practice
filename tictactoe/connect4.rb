@@ -6,7 +6,10 @@ R = 'red'
 class Connect4Board < Board 
     attr_accessor :board_config
     def initialize
-        @board_config = Array.new(6) {Array.new(7, 0)}
+        @x_dim = 7
+        @y_dim = 6
+        @board_config = Array.new(@x_dim) {Array.new(@y_dim, 0)}
+        
         
     end 
     def set(col, move)
@@ -30,18 +33,68 @@ class Connect4Board < Board
         @board_config.transpose[column].count(R) == 4 or @board_config.transpose[column].count(B) == 4
     end
 
-    def check_diagonal?(col)
-        
-        for i in 0...6
-            c1.push(@board_config[i][i])
+    def check_diagonal?
+        # it's not the best algo
+        # we essentially sweep the board in 4 diagonals
+
+        for i in 0...@x_dim
+            for j in 0...@y_dim
+            c1 = []
+            x = i
+            y = j
             
-        end
-        for i in 0...7
-            c2.push(@board_config[@dim-i-1][i])
-        end
-        if c1.count(R) == 4 || c2.count(R) == 4 || c1.count(B) ==4 || c2.count(B) ==4
-            return true
-        end
+            while x < @x_dim && y < @y_dim
+                c1.push(@board_config[x][y])
+                x +=1
+                y +=1
+
+            end
+            
+            if c1.count(R) == 4 || c1.count(B) ==4 
+                return true
+            end
+
+            c1 = []
+            x = @x_dim - i - 1
+            y = @y_dim - j - 1
+            while x >0 && y > 0
+                c1.push(@board_config[x][y])
+                x -=1
+                y -=1
+            end
+
+            if c1.count(R) == 4 || c1.count(B) ==4 
+                return true
+            end
+
+            c1 = []
+            x = i
+            y = @y_dim - j - 1
+
+            while x < @x_dim && y > 0
+                c1.push(@board_config[x][y])
+                x +=1
+                y -=1
+            end
+            if c1.count(R) == 4 || c1.count(B) ==4 
+                return true
+            end
+
+            c1 = []
+            x = @x_dim - i - 1
+            y = 0
+
+            while x >0 && y < @y_dim
+                c1.push(@board_config[x][y])
+                x -=1
+                y +=1
+            end
+
+            if c1.count(R) == 4 || c1.count(B) ==4 
+                return true
+            end
+        end # for j
+        end # for i
         false
     end
 

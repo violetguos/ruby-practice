@@ -42,6 +42,32 @@ describe "game" do
         board.set(3, R)
 
         board.set(3, B)
-        expect(board.check_horizontal?(0)).to eql(true)
+        expect(board.check_diagonal?).to eql(true)
+    end
+
+    it "find winner random diagonal" do
+        board = Connect4Board.new
+        for i in 0...6
+            board.set(1, R)
+        end
+
+        for i in 0...5
+            board.set(2, R)
+        end
+
+        for i in 0...4
+            board.set(3, R)
+        end
+
+        for i in 0...3
+            board.set(4, R)
+        end
+
+        board.set(1, B)
+        board.set(2, B)
+        board.set(3, B)
+        board.set(4, B)
+
+        expect(board.check_diagonal?).to eql(true)
     end
 end
