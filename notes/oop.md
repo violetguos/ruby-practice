@@ -105,14 +105,23 @@ Look through these now and then use them to test yourself after doing the assign
 
 ## Scope:
 
-    What is scope?
-    When can you start using a variable?
-    When is a new scope defined?
-    When are methods in scope?
-    What is a private method?
-    What is a protected method?
-    How are private and protected methods different?
-    What does “encapsulation” mean?
+1.  What is scope?
+
+Scope is the formal term that represents when you can access a variable or method and when you can't.
+
+2.  When can you start using a variable?
+
+after it's defined
+
+3. When is a new scope defined?
+
+A new scope is created when you first define a variable.
+
+4. When are methods in scope?
+5. What is a private method?
+6. What is a protected method?
+7. How are private and protected methods different?
+8. What does “encapsulation” mean?
 
 ## `self``
 
