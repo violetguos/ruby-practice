@@ -1,12 +1,12 @@
 # OOP
 
-Learning Outcomes
-
-Look through these now and then use them to test yourself after doing the assignment:
+Quiz from [odin](https://www.theodinproject.com/courses/ruby-programming/lessons/object-oriented-programming-ruby-programming)
 
 ## Classes and Methods:
 
     1. What is an implicit return?
+
+    if no `return var` is specified, ruby function returns value returned by the last statement
 
     2. What is a class?
     A Ruby class is used to organize and model objects with similar attributes and methods.
@@ -22,6 +22,11 @@ Look through these now and then use them to test yourself after doing the assign
 5.  What is an instance of a class?
 
 6.  What is the difference between the Pascal Case and snake_case styles of naming?
+
+- Use snake_case for symbols, methods and variables.
+- Use Pascal Case for classes and modules. (Keep acronyms like HTTP, RFC, XML uppercase.)
+- Use SCREAMING_SNAKE_CASE for other constants
+
 7.  How do you instantiate a class?
     class.new
 8.  How do you set the state of your new instance?
@@ -30,16 +35,20 @@ Look through these now and then use them to test yourself after doing the assign
     define instance variables (ONE `@`).
 
 10. What is a class method?
-    `self.method`
-    Class methods are methods we can call directly on the class itself, without having to instantiate any objects.
+
+    - `self.method`
+    - Class methods are methods we can call directly on the class itself, without having to instantiate any objects.
 
 11. How is a class method different from an instance method?
-    doesn't have to instantiate any objects
+
+    - doesn't have to instantiate any objects
 
 12. How are methods you already know like #count or #sort etc instance methods?
-    it operates directly without you instantiating anything
+
+    - it operates directly without you instantiating anything
 
 13. What’s the difference between how you declare a class method vs an instance method?
+
     `def self.class_method`
     vs
     `def instance_method`
@@ -118,10 +127,30 @@ after it's defined
 A new scope is created when you first define a variable.
 
 4. When are methods in scope?
+
+- can't call a method until the Ruby interpreter has had the chance to define it
+- instance methods can be called by any instance of a class
+- class methods can be called directly on the class itself (`.new`)
+
 5. What is a private method?
+
+- methods that should only be accessible by other methods within your class
+
 6. What is a protected method?
+
+- methods accessible inside other instances of the same class or its descendents
+- called inside a public method on an instance
+- still not accessible to anyone on command line
+
 7. How are private and protected methods different?
+
+- private methods can be called only from within the calling object
+- e.g. `obj.private_method -> illegal`, but `obj.protected_method -> works`
+
 8. What does “encapsulation” mean?
+
+- Encapsulation is the packing of data and functions into a single component.
+- Only the object can interact with its internal data.
 
 ## `self``
 
